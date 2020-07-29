@@ -43,3 +43,71 @@ knn.fit(X_train, y_train)
 # Print the accuracy
 print(knn.score(X_test, y_test))
 ```
+
+# Ch. 2 Regression
+## Linear Regression
+
+### Fitting
+```
+# Import LinearRegression
+from sklearn.linear_model import LinearRegression
+
+# Create the regressor: reg
+reg = LinearRegression()
+
+# Create the prediction space
+prediction_space = np.linspace(min(X_fertility), max(X_fertility)).reshape(-1,1)
+
+# Fit the model to the data
+reg.fit(X_fertility, y)
+
+# Compute predictions over the prediction space: y_pred
+y_pred = reg.predict(prediction_space)
+
+# Print R^2 
+print(reg.score(X_fertility, y))
+
+# Plot regression line
+plt.plot(prediction_space, y_pred, color='black', linewidth=3)
+plt.show()
+```
+
+### Cross Validation
+```
+# Import the necessary modules
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+
+# Create a linear regression object: reg
+reg = LinearRegression()
+
+# Compute 5-fold cross-validation scores: cv_scores
+cv_scores = cross_val_score(reg, X, y, cv=5)
+
+# Print the 5-fold cross-validation scores
+print(cv_scores)
+
+print("Average 5-Fold CV Score: {}".format(np.mean(cv_scores)))
+```
+
+### Regularization
+```
+# Import Lasso
+from sklearn.linear_model import Lasso
+
+# Instantiate a lasso regressor: lasso
+lasso = Lasso(alpha=0.4, normalize=True)
+
+# Fit the regressor to the data
+lasso.fit(X, y)
+
+# Compute and print the coefficients
+lasso_coef = lasso.coef_
+print(lasso_coef)
+
+# Plot the coefficients
+plt.plot(range(len(df_columns)), lasso_coef)
+plt.xticks(range(len(df_columns)), df_columns.values, rotation=60)
+plt.margins(0.02)
+plt.show()
+```
